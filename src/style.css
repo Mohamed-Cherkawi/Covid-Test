@@ -1,0 +1,70 @@
+body {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+}
+.header {
+    height: 13vh;
+    background-color: #95c4db;
+}
+ul {
+    display: flex;
+    list-style: none;
+}
+ul a {
+    color: black;
+    text-decoration: none;
+    margin: 0 7px;
+}
+h1 {
+    margin-top: 20px;
+}
+h4 {
+    margin-top: 100px;
+}
+h1,
+h4 {
+    color: #1078ad;
+}
+.description {
+    background-color: #f4cf1b;
+}
+.pharmacien {
+    margin-left: 220px;
+}
+div img {
+    height: 90%;
+    width: 70%;
+}
+#logo {
+    width: 10%;
+    height: 100%;
+}
+.emojiContainer {
+    height: 20vh;
+}
+#emoji {
+    width: 10%;
+    height: 50%;
+}
+.paragraph {
+    color: gray;
+    font-size: 1.2rem;
+}
+.Abutton {
+    text-align: center;
+}
+.AC-button {
+    height: 50px;
+    width: 300px;
+    background-color: #b1dcff;
+    border: 2px solid darkblue;
+    border-radius: 10px;
+    color: darkblue;
+    font-weight: bold;
+}
+button:hover {
+    background-color: darkblue;
+    color: white;
+}

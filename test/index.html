@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap CSS -->
+  <!-- icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../src/style.css" />
+  <link rel="stylesheet" href="../src/test.css" />
+  <title>Test</title>
+  <script src="script.js" defer></script>
+  <script src="result.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <div class="container-fluid d-flex align-items-center justify-content-between header">
+      <img id="logo" src="../src/logo__sante-55.png" alt="Logo de santé" />
+      <ul>
+        <li><a href="#">Conseils</a></li>
+        <li><a href="index.html">Acceuil</a></li>
+      </ul>
+    </div>
+  </header>
+  <div class="d-flex justify-content-center mt-3">
+    <div class="row container-sm">
+      <!-- stepper -->
+      <div class="col-4 d-flex justify-content-center flex-column align-items-center">
+        <div class="d-flex align-items-center justify-content-center lb-circle-container">
+          <div class="rounded-circle label-circle-s" id="informations"></div>
+        </div>
+        <p class="stepper-label">informations</p>
+      </div>
+      <div class="col-4 d-flex justify-content-center flex-column align-items-center">
+        <div class="d-flex align-items-center justify-content-center lb-circle-container">
+          <div class="rounded-circle label-circle-ns" id="questions"></div>
+        </div>
+        <p class="stepper-label">Questionnaire</p>
+      </div>
+      <div class="col-4 d-flex justify-content-center flex-column align-items-center">
+        <div class="d-flex align-items-center justify-content-center lb-circle-container">
+          <div id="resultat" class="rounded-circle label-circle-ns"></div>
+        </div>
+        <p class="stepper-label">Resultat</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="mt5" id="info">
+    <!-- Informations -->
+    <div class="container d-flex justify-content-center">
+      <div class="io-card rounded-3 py-3 py-lg-5 px-3 mb-4">
+        <h3 class="card-title">Préambule</h3>
+        <p class="mt-4">
+          L’application est fournie à titre gratuit, en l’état, uniquement à
+          des fins d’information pour contribuer à fluidifier la prise en
+          charge des personnes par les services d’urgences pendant l’épidémie
+          de Coronavirus COVID-19. L’exhaustivité, l’exactitude, le caractère
+          à jour des informations et contenus mis à disposition dans cette
+          application, ou leur adéquation à des finalités particulières, ne
+          sont pas garantis.
+        </p>
+        <hr />
+        <p>
+          Cette application ne substitue pas votre médecin qui est plus apte à
+          vous donner plus de précision. Les informations de cette application
+          est le premier niveau de la détection des cas possibles du COVID-19.
+        </p>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-lg start-test-button" id="testStart">
+        Demarrer le test
+      </button>
+    </div>
+  </section>
+
+  <section>
+    <!-- Questionnaire -->
+    <!-- Q1 -->
+    <div class="container mt-5 d-none" id="Q1">
+      <div class="card text-center">
+        <div class="card-header d-flex">
+          <div class="">
+            <span>1/22</span>
+          </div>
+
+          <progress id="file" class="mt-1 ms-1" value="1" max="22" style="width: 100%">
+            4.5%
+          </progress>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title mt-5 mb-5 text-secondary">
+            Pensez-vous avoir ou avoir eu de la fièvre ces 10 derniers jours
+            (frissons, sueurs) ?
+          </h5>
+          <div class="d-flex justify-content-center mb-5 ">
+            <div class="form-check form-check-inline">
+            <input id="fievreOui" class="form-check-input inputs fs-5" type="radio" name="choose" value="oui" onclick="buttonAble(document.getElementById('next1'))">
+            <label for="fievreOui">oui</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input id="fievreNon" class="form-check-input inputs fs-5" type="radio" name="choose" value="non" onclick="buttonAble(document.getElementById('next1'))">
+            <label for="fievreNon">no</label>
+          </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button type="button" id="next1" class="btn btn-outline-primary me-4 mb-4" data-mdb-ripple-color="dark"
+            disabled>
+            Suivant
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Q2 -->
+    <div class="container mt-5 d-none" id="Q2">
+      <div class="card text-center">
+        <div class="card-header d-flex">
+          <div class="">
+            <span>2/22</span>
+          </div>
+
+          <progress id="file" class="mt-1 ms-1" value="2" max="22" style="width: 100%">
+            4.5%
+          </progress>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title mt-5 mb-5 text-secondary">
+            Quelle est votre température corporelle ?
+          </h5>
+          <div class="d-flex justify-content-center mb-5">
+            <div class="input-group w-50">
+              <input type="number" class="form-control" placeholder="34-42" min="34" max="42" id="temp"
+                onkeyup="if(validateTemp()){buttonAble(document.getElementById('next2'))}"  />
+              <span class="input-group-text">degrés</span>
+            </div>
+          </div>
+        </div>
+         <div class="d-flex justify-content-evenly">
+          <button onclick="goBack(Q2,Q1)" type="button" class="btn btn-outline-primary mb-4" data-mdb-ripple-color="dark">
+            Précédent
+          </button>
+          <button type="submit" class="btn btn-outline-primary mb-4" data-mdb-ripple-color="dark" disabled id="next2">
+            Suivant
+          </button>
+         </div>
+  
+      </div>
+    </div>
+ 
+    <!-- Q3 -->
+    <div class="container mt-5 d-none" id="Q3">
+      <div class="card text-center">
+        <div class="card-header d-flex">
+          <div class="">
+            <span>3/22</span>
+          </div>
+
+          <progress id="file" class="mt-1 ms-1" value="3" max="22" style="width: 100%">
+            4.5%
+          </progress>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title mt-5 mb-5 text-secondary">
+            Ces derniers jours, avez-vous une toux ou une augmentation de
+            votre toux habituelle ?
+          </h5>
+          <div class="d-flex justify-content-center mb-5">
+            <div class="form-check form-check-inline">
+            <input id="touxOui"  class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next3'))">
+            <label for="touxOui">oui</label>
+             </div>
+             <div class="form-check form-check-inline">
+            <input id="touxNon"  class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next3'))">
+            <label for="touxNon">no</label>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-evenly">
+          <button onclick="goBack(Q3,Q2)" type="button" class="btn btn-outline-primary mb-4" data-mdb-ripple-color="dark">
+            Précédent
+          </button>
+          <button type="button" class="btn btn-outline-primary mb-4" data-mdb-ripple-color="dark" disabled id="next3">
+            Suivant
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Q4 -->
+    <div class="container mt-5 d-none" id="Q4">
+      <div class="card text-center">
+        <div class="card-header d-flex">
+          <div class="">
+            <span>4/22</span>
+          </div>
+
+          <progress id="file" class="mt-1 ms-1" value="4" max="22" style="width: 100%">
+            4.5%
+          </progress>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title mt-5 mb-5 text-secondary">
+            Avez-vous eu des courbatures inhabituelles au cours des derniers
+            jours ?
+          </h5>
+          <div class="d-flex justify-content-center mb-5">
+            <div class="form-check form-check-inline">
+            <input id="coursOui" class="form-check-input inputs fs-5"  type="radio" name="choose" onclick="buttonAble(document.getElementById('next4'))">
+            <label for="coursOui">oui</label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input id="coursNon" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next4'))">
+            <label for="coursNon">no</label>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-evenly">
+          <button onclick="goBack(Q4,Q3)" type="button" class="btn btn-outline-primary mb-4" data-mdb-ripple-color="dark">
+            Précédent
+          </button>
+          <button type="button" class="btn btn-outline-primary mb-4" data-mdb-ripple-color="dark" id="next4" disabled>
+            Suivant
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Q5 -->
+    <div class="container mt-5 d-none" id="Q5">
+      <div class="card text-center">
+        <div class="card-header d-flex">
+          <div class="">
+            <span>5/22</span>
+          </div>
+
+          <progress id="file" class="mt-1 ms-1" value="5" max="22" style="width: 100%">
+            4.5%
+          </progress>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title mt-5 mb-5 text-secondary">
+            Ces derniers jours, avez-vous un mal de gorge ?
+          </h5>
+          <div class="d-flex justify-content-center mb-5">
+            <div class="form-check form-check-inline">
+            <input id="gorgeOui"  class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next5'))">
+            <label for="gorgeOui">oui</label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input id="gorgeNon"  class="form-check-input inputs fs-5"  type="radio" name="choose" onclick="buttonAble(document.getElementById('next5'))">
+            <label for="gorgeNon">no</label>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-evenly">
+          <button onclick="goBack(Q5,Q4)" type="button" class="btn btn-outline-primary mb-4" data-mdb-ripple-color="dark">
+            Précédent
+          </button>
+          <button id="next5" type="button" class="btn btn-outline-primary mb-4" data-mdb-ripple-color="dark" disabled>
+            Suivant
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Q6 -->
+    <div class="container mt-5 d-none" id="Q6">
+      <div class="card text-center">
+        <div class="card-header d-flex">
+          <div class="">
+            <span>6/22</span>
+          </div>
+
+          <progress id="file" class="mt-1 ms-1" value="6" max="22" style="width: 100%">
+            4.5%
+          </progress>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title mt-5 mb-5 text-secondary">
+            Ces dernières 24 heures, avez-vous de la diarrhée ? Avec au moins
+            3 selles molles.
+          </h5>
+          <div class="d-flex justify-content-center mb-5">
+            <div class="form-check form-check-inline">
+            <input id="diarOui" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next6'))">
+            <label for="diarOui">oui</label>
+            </div>
+            <div class="form-check form-check-inline">
+
+            <input id="diarNon" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next6'))">
+            <label for="diarNon">no</label>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-evenly">
+          <button onclick="goBack(Q6,Q5)" type="button" class="btn btn-outline-primary mb-4" data-mdb-ripple-color="dark">
+            Précédent
+          </button>
+          <button id="next6" type="button" class="btn btn-outline-primary mb-4" data-mdb-ripple-color="dark" disabled>
+            Suivant
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Q7-->
+    <div class="container mt-5 d-none" id="Q7">
+      <div class="card text-center">
+        <div class="card-header d-flex">
+          <div class="">
+            <span>7/22</span>
+          </div>
+
+          <progress id="file" class="mt-1 ms-1" value="7" max="22" style="width: 100%">
+            4.5%
+          </progress>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title mt-5 mb-5 text-secondary">
+            Ces derniers jours, avez-vous une fatigue inhabituelle qui vous a
+            obligé à vous reposer plus de la moitié de la journée ?
+          </h5>
+          <div class="d-flex justify-content-center mb-5">
+            <div class="form-check form-check-inline">
+            <input id="fatigueOui" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next7'))">
+            <label for="fatigueOui">oui</label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input id="fatigueNon" class="form-check-input inputs fs-5"  type="radio" name="choose" onclick="buttonAble(document.getElementById('next7'))">
+            <label for="fatigueNon">no</label>
+            </div> 
+          </div>
+        </div>
+        <div class="d-flex justify-content-evenly">
+          <button onclick="goBack(Q7,Q6)" type="button" class="btn btn-outline-primary mb-4" data-mdb-ripple-color="dark">
+            Précédent
+          </button>
+          <button id="next7" type="button" class="btn btn-outline-primary mb-4" data-mdb-ripple-color="dark" disabled ">
+            Suivant
+          </button>
+        </div>
+      </div>
+      
+      
+    </div>
+      <!-- Q8 -->
+      <div class="container mt-5 d-none " id="Q8">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>8/22</span>
+
+            </div>
+
+            <progress id="file" class="mt-1 ms-1" value="8" max="22" style="width: 100%;"> 32% </progress>
+
+
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">Avez-vous des difficultés importantes pour vous alimenter ou
+              boire depuis plus de 24h ?</h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="form-check form-check-inline">
+              <input id="boireOui" class="form-check-input inputs fs-5"  type="radio" name="choose"
+                onclick="buttonAble(document.getElementById('next8'))">
+              <label for="boireOui">oui</label>
+              </div>
+              <div class="form-check form-check-inline">
+              <input id="boireNon" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next8'))">
+              <label for="boireNon">no</label>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button onclick="goBack(Q8,Q7)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button type="button" class="btn btn-outline-primary  mb-4 Next" data-mdb-ripple-color="dark" disabled
+              id="next8">Suivant</button>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- Q9-->
+      <div class="container mt-5  d-none" id="Q9">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>9/22</span>
+
+            </div>
+
+            <progress id="file" class="mt-1 ms-1" value="9" max="22" style="width: 100%;"> 32% </progress>
+
+
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">Dans les dernières 24 heures, avez-vous noté un manue de
+              souffle inhabituel lorsque vous parlez ou faites un petit effort ?</h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="form-check form-check-inline">
+              <input id="geneOui" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next9'))">
+              <label for="geneOui">oui</label>
+              </div>
+              <div class="form-check form-check-inline">
+              <input id="geneNon" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next9'))">
+              <label for="geneNon">no</label>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button onclick="goBack(Q9,Q8)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button type="button" class="btn btn-outline-primary  mb-4 Next" data-mdb-ripple-color="dark"
+              disabled id="next9">Suivant</button>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- Q10-->
+      <div class="container mt-5 d-none " id="Q10">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>10/22</span>
+
+            </div>
+
+            <progress id="file" class="mt-1 ms-1" value="10" max="22" style="width: 100%;"> 32% </progress>
+
+
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">Actuellement, comment vous vous sentez ?</h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="form-check form-check-inline">
+              <input id="bien"   class="form-check-input inputs fs-5"  type="radio" name="choose" onclick="buttonAble(document.getElementById('next10'))">
+              <label for="bien">bien</label>
+              </div>
+              <div class="form-check form-check-inline">
+              <input id="tresBien" class="form-check-input inputs fs-5"  type="radio" name="choose" onclick="buttonAble(document.getElementById('next10'))">
+              <label for="tresbien">Très bien</label>
+              </div>
+              <div class="form-check form-check-inline">
+              <input id="mal" class="form-check-input inputs fs-5"  type="radio" name="choose" onclick="buttonAble(document.getElementById('next10'))">
+              <label for="mal">Fatigué</label>
+              </div>
+              <div class="form-check form-check-inline">
+              <input id="tresMal"  class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next10'))">
+              <label for="tresMal">Très Fatigué</label>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button onclick="goBack(Q10,Q9)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button type="button" class="btn btn-outline-primary  mb-4 Next" data-mdb-ripple-color="dark"
+              disabled id="next10">Suivant</button>
+
+          </div>
+        </div>
+        
+      </div>
+      <!-- Q11-->
+      <div class="container mt-5 d-none " id="Q11">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>11/22</span>
+
+            </div>
+
+            <progress id="file" class="mt-1 ms-1" value="11" max="22" style="width: 100%;"> 32% </progress>
+
+
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">Quel est votre âge ? Ceci, afin de calculer un facteur de
+              risque spécifique.
+            </h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="input-group  w-50">
+                <input id="age" type="number" class="form-control" placeholder="16-100" min="16" max="110" id="age"
+                onkeyup="if(validateAge()){ buttonAble(document.getElementById('next11'))}" />
+              <span class="input-group-text">ans</span>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button onclick="goBack(Q11,Q10)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button type="button" class="btn btn-outline-primary  mb-4 Next" data-mdb-ripple-color="dark"
+              disabled id="next11">Suivant</button>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- Q12-->
+      <div class="container mt-5 d-none " id="Q12">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>12/22</span>
+
+            </div>
+
+            <progress id="file" class="mt-1 ms-1" value="12" max="22" style="width: 100%;"> 32% </progress>
+
+
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">quel est votre poids ? Afin de calculer l’indice de masse
+              corporelle
+              qui est un facteur influençant le risque de complications de l’infection.
+            </h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="input-group  w-50">
+                <input id="poids" type="number" class="form-control" placeholder="50-100" min="50" max="100" id="weight"
+                onkeyup="if(validatePoids()){buttonAble(document.getElementById('next12'))}" />
+              <span class="input-group-text">kg</span>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button onclick="goBack(Q12,Q11)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button id="next12" type="button" class="btn btn-outline-primary  mb-4 Next" data-mdb-ripple-color="dark"
+              disabled>Suivant</button>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- Q13-->
+      <div class="container mt-5 d-none " id="Q13">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>13/22</span>
+
+            </div>
+
+            <progress id="file" class="mt-1 ms-1" value="13" max="22" style="width: 100%;"> 32% </progress>
+
+
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">quelle est votre taille ? Afin de calculer l’indice de masse
+              corporelle qui est un facteur
+              influençant le risque de complications de l’infection.
+            </h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="input-group  w-50">
+                <input id="taille" type="number" class="form-control" placeholder="80-200" min="80" max="200" id="height"
+                onkeyup="if(validateTaille()){buttonAble(document.getElementById('next13'))}" />
+              <span class="input-group-text">cm</span>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button onclick="goBack(Q13,Q12)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button id="next13" type="button" class="btn btn-outline-primary  mb-4 Next" data-mdb-ripple-color="dark"
+              disabled>Suivant</button>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- Q14-->
+      <div class="container mt-5 d-none " id="Q14">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>14/22</span>
+
+            </div>
+
+            <progress id="file" class="mt-1 ms-1" value="14" max="22" style="width: 100%;"> 32% </progress>
+
+
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">Avez-vous de l’hypertension artérielle mal équilibrée ? Ou
+              avez-vous une maladie cardiaque ou vasculaire ?
+              Ou prenez-vous un traitement à visée cardiologique ?</h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="form-check form-check-inline">
+              <input id="maladieOui" class="form-check-input inputs fs-5" type="radio" name="choose"
+                onclick="buttonAble(document.getElementById('next14'))">
+              <label for="maladieOui">oui</label>
+              </div>
+              <div class="form-check form-check-inline">
+              <input id="maladieNon" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next14'))">
+              <label for="maladieNon">no</label>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button onclick="goBack(Q14,Q13)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button id="next14" type="button" class="btn btn-outline-primary  mb-4 Next"
+              data-mdb-ripple-color="dark">Suivant</button>
+          </div>
+        </div>
+      </div>
+      <!-- Q15-->
+      <div class="container mt-5 d-none " id="Q15">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>15/22</span>
+
+            </div>
+
+            <progress id="file" class="mt-1 ms-1" value="15" max="22" style="width: 100%;"> 32% </progress>
+
+
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">Êtes-vous diabétiue ?</h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="form-check form-check-inline">
+              <input id="diabOui" class="form-check-input inputs fs-5" type="radio" name="choose"
+                onclick="buttonAble(document.getElementById('next15'))">
+              <label for="diabOui">oui</label>
+              </div>
+              <div class="form-check form-check-inline">
+              <input id="diabNon" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next15'))">
+              <label for="diabNon">no</label>
+            </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button onclick="goBack(Q15,Q14)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button id="next15" type="button" class="btn btn-outline-primary  mb-4 Next" data-mdb-ripple-color="dark"
+              disabled>Suivant</button>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- Q16-->
+      <div class="container mt-5 d-none " id="Q16">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>16/22</span>
+
+            </div>
+
+            <progress id="file" class="mt-1 ms-1" value="16" max="22" style="width: 100%;"> 32% </progress>
+
+
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">Avez-vous ou avez-vous eu un cancer ?</h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="form-check form-check-inline">
+              <input id="cancerOui" class="form-check-input inputs fs-5" type="radio" name="choose"
+              onclick="buttonAble(document.getElementById('next16'))">
+            <label for="cancerOui">oui</label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input id="cancerNon" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next16'))">
+            <label for="cancerNon">no</label>
+            </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button onclick="goBack(Q16,Q15)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button id="next16" type="button" class="btn btn-outline-primary  mb-4 Next" data-mdb-ripple-color="dark"
+              disabled>Suivant</button>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- Q17-->
+      <div class="container mt-5 d-none " id="Q17">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>17/22</span>
+
+            </div>
+
+            <progress id="file" class="mt-1 ms-1" value="17" max="22" style="width: 100%;"> 32% </progress>
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">Avez-vous une maladie respiratoire ? Ou êtes-vous suivi par
+              un pneumologue ?</h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="form-check form-check-inline">
+              <input id="respOui" class="form-check-input inputs fs-5" type="radio" name="choose"
+                onclick="buttonAble(document.getElementById('next17'))">
+              <label for="respOui">oui</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input id="respNon" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next17'))">
+              <label for="respNon">no</label>
+            </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button  onclick="goBack(Q17,Q16)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button id="next17" type="button" class="btn btn-outline-primary  mb-4 Next" data-mdb-ripple-color="dark"
+              disabled>Suivant</button>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- Q18-->
+      <div class="container mt-5 d-none " id="Q18">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>18/22</span>
+            </div>
+            <progress id="file" class="mt-1 ms-1" value="18" max="22" style="width: 100%;"> 32% </progress>
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">Avez-vous une insuffisance rénale chroniue dialysée ?</h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="form-check form-check-inline">
+              <input id="dialyseOui" class="form-check-input inputs fs-5" type="radio" name="choose"
+                onclick="buttonAble(document.getElementById('next18'))">
+              <label for="dialyseOui">oui</label>
+              </div>
+              <div class="form-check form-check-inline">
+              <input id="dialyseNon" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next18'))">
+              <label for="dialyseNon">no</label>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button  onclick="goBack(Q18,Q17)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button id="next18" type="button" class="btn btn-outline-primary  mb-4 Next" data-mdb-ripple-color="dark"
+              disabled>Suivant</button>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- Q19-->
+      <div class="container mt-5 d-none " id="Q19">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>19/22</span>
+            </div>
+            <progress id="file" class="mt-1 ms-1" value="19" max="22" style="width: 100%;"> 32% </progress>
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">Avez-vous une maladie chronique du foie ?</h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="form-check form-check-inline">
+              <input id="croniqueOui" class="form-check-input inputs fs-5" type="radio" name="choose"
+                onclick="buttonAble(document.getElementById('next19'))">
+              <label for="croniqueOui">oui</label>
+              </div>
+              <div class="form-check form-check-inline">
+
+              <input id="croniqueNon" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next19'))">
+              <label for="croniqueNon">no</label>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button onclick="goBack(Q19,Q18)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button id="next19" type="button" class="btn btn-outline-primary  mb-4 Next" data-mdb-ripple-color="dark"
+              disabled>Suivant</button>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- Q20-->
+      <div class="container mt-5 d-none " id="Q20">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>20/22</span>
+            </div>
+            <progress id="file" class="mt-1 ms-1" value="20" max="22" style="width: 100%;"> 32% </progress>
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">Êtes-vous enceinte ?</h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="form-check form-check-inline">
+              <input id="encOui" class="form-check-input inputs fs-5" type="radio" name="choose"
+                onclick="buttonAble(document.getElementById('next20'))">
+              <label for="encOui">oui</label>
+             </div>
+            <div class="form-check form-check-inline">
+              <input id="encNon" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next20'))">
+              <label for="encNon">no</label>
+            </div>
+              <div class="form-check form-check-inline">
+              <input id="homme" class="form-check-input inputs fs-5" type="radio" name="choose"
+                onclick="buttonAble(document.getElementById('next20'))">
+              <label for="homme">homme</label>
+               </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button onclick="goBack(Q20,Q19)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button id="next20" type="button" class="btn btn-outline-primary  mb-4 Next" data-mdb-ripple-color="dark"
+              disabled>Suivant</button>
+
+          </div>
+        </div>
+      </div>
+      <!-- Q21-->
+      <div class="container mt-5 d-none " id="Q21">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>21/22</span>
+
+            </div>
+
+            <progress id="file" class="mt-1 ms-1" value="21" max="22" style="width: 100%;"> 32% </progress>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">Avez-vous une maladie connue pour diminuer vos défenses
+              immunitaires ?</h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="form-check form-check-inline">
+              <input id="immOui" class="form-check-input inputs fs-5" type="radio" name="choose"
+                onclick="buttonAble(document.getElementById('next21'))">
+              <label for="immOui">oui</label>
+              </div>
+              <div class="form-check form-check-inline">
+              <input id="immNon" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next21'))">
+              <label for="immNon">no</label>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button  onclick="goBack(Q21,Q20)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button id="next21" type="button" class="btn btn-outline-primary  mb-4 Next" data-mdb-ripple-color="dark"
+              disabled>Suivant</button>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- Q22-->
+      <div class="container mt-5 d-none " id="Q22">
+        <div class="card text-center ">
+          <div class="card-header d-flex ">
+            <div class="">
+              <span>22/22</span>
+            </div>
+            <progress id="file" class="mt-1 ms-1" value="22" max="22" style="width: 100%;"> 32% </progress>
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title mt-5 mb-5 text-secondary">Prenez-vous un traitement immunosuppresseur ? C’est un
+              traitement qui diminue vos défenses contre les infections. Voici quelques exemples : corticoïdes,
+              méthotrexate,
+              ciclosporine, tacrolimus, azathioprine, cyclophosphamide (liste non exhaustive).</h5>
+            <div class="d-flex justify-content-center mb-5">
+              <div class="form-check form-check-inline">
+              <input id="traitOui" class="form-check-input inputs fs-5" type="radio" name="choose"
+                onclick="buttonAble(document.getElementById('next22'))">
+              <label for="traitOui">oui</label>
+              </div>
+              <div class="form-check form-check-inline">
+              <input id="traitNon" class="form-check-input inputs fs-5" type="radio" name="choose" onclick="buttonAble(document.getElementById('next22'))">
+              <label for="traitNon">no</label>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <button  onclick="goBack(Q22,Q21)" type="button" class="btn btn-outline-primary  mb-4 Back"
+              data-mdb-ripple-color="dark">Précédent</button>
+            <button id="next22" type="button" class="btn btn-outline-primary mb-4 Next" 
+              disabled >Afficher resultat</button>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- result -->
+      <div class="mt-5 d-none" id="result" >
+        <div class="container d-flex justify-content-center">
+          <div class="io-card rounded-3 py-3 py-lg-5 px-3 mb-4">
+            <h3 class="card-title">Résultats</h3>
+            <p class="result-message" id="resultMessage"></p>
+            <hr />
+            <p class="result-advice">
+              Restez chez vous au maximum en attendant que les symptômes
+              disparaissent. Prenez votre température deux fois par jour. Rappel
+              des mesures d’hygiène.
+            </p>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-lg start-test-button" onclick="window.location='index.html'">Redemarrer le test</button>
+        </div>
+      </div>
+  </section>
+
+  
+
+  <footer class="mt-5 ">
+    <!-- logo -->
+    <div class="row justify-content-center">
+      <h1 class="p-0 text-center">LOGO</h1>
+    </div>
+    <!-- others -->
+    <div class="row">
+      <div class="col-6 text-center p-0">
+        <span class="d-block stepper-label">Contact</span>
+        <span class="d-block">Numéro économique - Allo veille épidémiologique</span>
+        <span class="d-block call-number">080 100 47 47</span>
+        <span class="d-block">Aide médicale urgente - Allo SAMU</span>
+        <span class="d-block call-number">141</span>
+        <span class="d-block">la plateforme téléphonique- Allo 300</span>
+        <span class="d-block call-number">300</span>
+      </div>
+      <div class="col-6 text-center p-0">
+        <p>
+          <a href="/" class="link-primary text-decoration-none">Accueil</a>
+        </p>
+        <hr class="w-50 text-center d-inline-flex" />
+        <p>
+          <a href="/" class="link-primary text-decoration-none">Accueil</a>
+        </p>
+        <hr class="w-50 text-center d-inline-flex" />
+      </div>
+    </div>
+    <div class="container-fluid bg-primary" style="height: 30px"></div>
+    
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
